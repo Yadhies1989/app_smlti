@@ -22,7 +22,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>PaBjn</a>
+    <a href="../../index2.html">SMLTI</a>
     <?php echo $this->session->flashdata('pesan') ?>
   </div>
   
@@ -33,7 +33,7 @@
 
       <form action="<?= base_url ('welcome/');?>" method="post">
         <div class="input-group mb-3">
-          <input type="nip" class="form-control" placeholder="NIP" name="nip" value="<?= set_value('nip')?>">
+          <input type="nip" class="form-control" placeholder="Username" name="nip" value="<?= set_value('nip')?>">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -50,6 +50,26 @@
           </div>
         </div>
         <?= form_error('password', '<div class="text-danger mb-3">', '</div>')?>
+        <div class="input-group mb-3">
+            <!-- <input type="password" class="form-control" placeholder="Tahun" name="tahun"> -->
+            <select class="form-control select2" style="width: 100%;" name="tahun">
+              <?php
+              for ($i = 2018; $i <= (date('Y')); $i++) {
+                if (date('Y') == $i) {
+                  echo "<option value='$i' selected>$i</option>";
+                } else {
+                  echo "<option value='$i'>$i</option>";
+                }
+              }
+              ?>
+            </select>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-calendar"></span>
+              </div>
+            </div>
+        </div>
+        <?= form_error('password', '<div class="text-danger mb-3">', '</div>') ?>
         <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
@@ -66,16 +86,6 @@
           <!-- /.col -->
         </div>
       </form>
-
-     
-      <!-- /.social-auth-links -->
-
-      <p class="mb-1">
-        <!-- <a href="forgot-password.html">I forgot my password</a> -->
-      </p>
-      <p class="mb-0">
-        <a href="<?php echo base_url('welcome/registrasi');?>" class="text-center">Registrasi Pengguna Baru</a>
-      </p>
     </div>
     <!-- /.login-card-body -->
   </div>
