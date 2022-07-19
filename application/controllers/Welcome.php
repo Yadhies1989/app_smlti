@@ -16,7 +16,7 @@ class Welcome extends CI_Controller
 			redirect('user');
 		}
 
-		$this->form_validation->set_rules('nip', 'NIP', 'required|trim|numeric');
+		$this->form_validation->set_rules('nip', 'NIP', 'required|trim');
 		$this->form_validation->set_rules('password', 'Password', 'required|trim');
 
 		if ($this->form_validation->run() == false) {
@@ -32,6 +32,7 @@ class Welcome extends CI_Controller
 	{
 		$nip 		= $this->input->post('nip');
 		$password 	= $this->input->post('password');
+		$tahun      = $this->security->xss_clean($this->input->post('tahun'));
 
 		$user = $this->db->get_where('tbl_user', ['nip' => $nip])->row_array();
 
@@ -43,6 +44,7 @@ class Welcome extends CI_Controller
 					$data = [
 						'nip'     => $user['nip'],
 						'role_id' => $user['role_id'],
+						'admin_ta'   => $tahun,
 					];
 					$this->session->set_userdata($data);
 					if ($user['role_id'] == 1) {

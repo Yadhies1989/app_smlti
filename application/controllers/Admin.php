@@ -14,6 +14,7 @@ class Admin extends CI_Controller
 	{
 		$data['user'] = $this->db->get_where('tbl_user', ['nip' => $this->session->userdata('nip')])->row_array();
 		$data['title'] = 'Dashboard';
+		$data['tahun'] = $this->session->userdata('admin_ta');
 
 		// echo "Selamat Datang User " . $data['user']['name'];
 		$this->load->view('Template/navbar', $data);
