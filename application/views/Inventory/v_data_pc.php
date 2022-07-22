@@ -30,21 +30,14 @@
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="example1" class="table table-bordered table-striped table-sm">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>id</th>
                                                 <th>Nama PC</th>
                                                 <th>Nama Monitor</th>
-                                                <th>SN PC</th>
-                                                <th>SN Monitor</th>
-                                                <th>Tgl Beli</th>
-                                                <th>Penguasaan</th>
-                                                <th>NUP</th>
+                                                <th>Pengguna</th>
                                                 <th>Ruangan</th>
-                                                <th>User</th>
-                                                <th>Date Created</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -55,29 +48,32 @@
                                                 //show nama user
                                                 $peg_id = $hasil['user'];
                                                 $peg_nama = $peg_id;
-                                                if(is_numeric($peg_id)){
+                                                if (is_numeric($peg_id)) {
                                                     $peg_row = $this->db->query("SELECT * FROM data_pegawai WHERE id_pegawai = $peg_id")->row_array();
                                                     $peg_nama = $peg_row['nama'];
                                                 }
-                                                
+
                                             ?>
                                                 <tr>
                                                     <td><?= $no++; ?></td>
-                                                    <td><?= $hasil['id_pc']; ?></td>
                                                     <td><?= $hasil['nama_pc']; ?></td>
                                                     <td><?= $hasil['nama_monitor']; ?></td>
-                                                    <td><?= $hasil['sn_pc']; ?></td>
-                                                    <td><?= $hasil['sn_monitor']; ?></td>
-                                                    <td><?= $hasil['tgl_beli']; ?></td>
-                                                    <td><?= $hasil['penguasaan']; ?></td>
-                                                    <td><?= $hasil['nup']; ?></td>
-                                                    <td><?= $hasil['ruangan']; ?></td>
                                                     <td><?= $peg_nama; ?></td>
-                                                    <td><?= $hasil['date_created']; ?></td>
                                                     <td>
-                                                        <a data-toggle="modal" data-target="#detail-data<?= $hasil['id_pc']; ?>" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a data-toggle="modal" data-target="#update-data<?= $hasil['id_pc']; ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a data-toggle="modal" data-target="#hapus-data<?= $hasil['id_pc']; ?>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        <?php foreach ($ruangan as $m) : ?>
+                                                            <?php if ($m['id_ruangan'] == $hasil['ruangan']) : ?>
+                                                                <?= $m['nama_ruangan']; ?>
+                                                            <?php else : ?>
+
+                                                            <?php endif; ?>
+                                                        <?php endforeach ?>
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group btn-sm" role="group" aria-label="Basic example">
+                                                            <a data-toggle="modal" data-target="#detail-data<?= $hasil['id_pc']; ?>" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a data-toggle="modal" data-target="#update-data<?= $hasil['id_pc']; ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a data-toggle="modal" data-target="#hapus-data<?= $hasil['id_pc']; ?>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -85,17 +81,10 @@
                                         <tfoot>
                                             <tr>
                                                 <th>No</th>
-                                                <th>id</th>
                                                 <th>Nama PC</th>
                                                 <th>Nama Monitor</th>
-                                                <th>SN PC</th>
-                                                <th>SN Monitor</th>
-                                                <th>Tgl Beli</th>
-                                                <th>Penguasaan</th>
-                                                <th>NUP</th>
+                                                <th>Pengguna</th>
                                                 <th>Ruangan</th>
-                                                <th>User</th>
-                                                <th>Date Created</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </tfoot>
@@ -122,49 +111,49 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-success">
-                    <h5><i class="fas fa-plus-square"></i> Tambah Personal Computer (PC)</h5>
+                    <h5><i class="fas fa-plus-square"></i> Tambah Data PC</h5>
                 </div>
                 <form method="post" action="<?php echo base_url('inventory/proses_input_data_pc') ?>" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group row">
                             <div class="row col-6">
-                                <label for="nama_pc" class="col-sm-5 col-form-label">Nama PC</label>
+                                <label for="nama_pc" class="col-sm-5 col-form-label col-form-label-sm">Nama PC</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="nama_pc" placeholder="Nama PC" name="nama_pc" onkeyup="this.value = this.value.toUpperCase()" required>
+                                    <textarea class="form-control form-control-sm" id="nama_pc" name="nama_pc" rows="3" onkeyup="this.value = this.value.toUpperCase()" placeholder="Nama PC ..." required></textarea>
                                 </div>
                             </div>
                             <div class="row col-6">
-                                <label for="nama_monitor" class="col-sm-5 col-form-label">Nama Monitor</label>
+                                <label for="nama_monitor" class="col-sm-5 col-form-label col-form-label-sm">Nama Monitor</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="nama_monitor" placeholder="Nama Monitor" name="nama_monitor" onkeyup="this.value = this.value.toUpperCase()" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="row col-6">
-                                <label for="sn_pc" class="col-sm-5 col-form-label">Serial PC</label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="sn_pc" placeholder="Serial PC" name="sn_pc" required>
-                                </div>
-                            </div>
-                            <div class="row col-6">
-                                <label for="sn_monitor" class="col-sm-5 col-form-label">Serial Monitor</label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="sn_monitor" placeholder="Serial Monitor" name="sn_monitor" required>
+                                    <input type="text" class="form-control form-control-sm" id="nama_monitor" placeholder="Nama Monitor ..." name="nama_monitor" onkeyup="this.value = this.value.toUpperCase()" required>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="row col-6">
-                                <label for="tgl_beli" class="col-sm-5 col-form-label">Tanggal Beli</label>
+                                <label for="sn_pc" class="col-sm-5 col-form-label col-form-label-sm">SN PC</label>
                                 <div class="col-sm-7">
-                                    <input type="date" class="form-control" placeholder="Tanggal Beli" name="tgl_beli">
+                                    <input type="text" class="form-control form-control-sm" value="0" id="sn_pc" placeholder="Serial PC" name="sn_pc" onkeyup="this.value = this.value.toUpperCase()" required>
                                 </div>
                             </div>
                             <div class="row col-6">
-                                <label for="penguasaan" class="col-sm-5 col-form-label">Penguasaan</label>
+                                <label for="sn_monitor" class="col-sm-5 col-form-label col-form-label-sm">SN Monitor</label>
                                 <div class="col-sm-7">
-                                    <select name="penguasaan" class="form-control" required>
+                                    <input type="text" class="form-control form-control-sm" value="0" id="sn_monitor" placeholder="Serial Monitor" name="sn_monitor" onkeyup="this.value = this.value.toUpperCase()" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="row col-6">
+                                <label for="tgl_beli" class="col-sm-5 col-form-label col-form-label-sm">Tanggal Beli</label>
+                                <div class="col-sm-7">
+                                    <input type="date" class="form-control form-control-sm" placeholder="Tanggal Beli" name="tgl_beli">
+                                </div>
+                            </div>
+                            <div class="row col-6">
+                                <label for="penguasaan" class="col-sm-5 col-form-label col-form-label-sm">Penguasaan</label>
+                                <div class="col-sm-7">
+                                    <select name="penguasaan" class="form-control form-control-sm" required>
                                         <option value="">--PILIH--</option>
                                         <option value="BMN">BMN</option>
                                         <option value="Non BMN">Non BMN</option>
@@ -174,43 +163,61 @@
                         </div>
                         <div class="form-group row">
                             <div class="row col-6">
-                                <label for="nup" class="col-sm-5 col-form-label">NUP</label>
+                                <label for="nup" class="col-sm-5 col-form-label col-form-label-sm">NUP</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="nup" placeholder="NUP" name="nup">
+                                    <input type="text" class="form-control form-control-sm" id="nup" placeholder="NUP" name="nup" value="0" required>
                                 </div>
                             </div>
                             <div class="row col-6">
-                                <label for="ruangan" class="col-sm-5 col-form-label">Ruangan</label>
+                                <label for="ruangan" class="col-sm-5 col-form-label col-form-label-sm">Ruangan</label>
                                 <div class="col-sm-7">
-                                    <select name="ruangan" class="form-control" required>
-                                        <option value="">--PILIH--</option>
-                                        <option value="1">Kepaniteraan</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="row col-6">
-                                <label for="user" class="col-sm-5 col-form-label">User</label>
-                                <div class="col-sm-7">
-                                    <select class="form-control" name="user" id="user">
+                                    <select name="ruangan" class="form-control form-control-sm" id="ruangan" required>
                                         <option value=""></option>
                                     </select>
                                 </div>
                             </div>
                             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
                             <script type="text/javascript">
-                                $(document).ready(function(){
+                                $(document).ready(function() {
                                     $.ajax({
                                         type: 'POST',
-                                        url: '<?php echo base_url('inventory/get_user'); ?>',
-                                        cache: false, 
-                                        success: function(msg){
-                                        $("#user").html(msg);
+                                        url: '<?php echo base_url('inventory/get_ruangan'); ?>',
+                                        cache: false,
+                                        success: function(msg) {
+                                            $("#ruangan").html(msg);
                                         }
                                     });
                                 });
                             </script>
+                        </div>
+                        <div class="form-group row">
+                            <div class="row col-6">
+                                <label for="user" class="col-sm-5 col-form-label col-form-label-sm">Pengguna</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control form-control-sm" name="user" id="user">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<?php echo base_url('inventory/get_user'); ?>',
+                                        cache: false,
+                                        success: function(msg) {
+                                            $("#user").html(msg);
+                                        }
+                                    });
+                                });
+                            </script>
+                            <div class="row col-6">
+                                <label for="keterangan" class="col-sm-5 col-form-label col-form-label-sm">Keterangan</label>
+                                <div class="col-sm-7">
+                                    <textarea class="form-control form-control-sm" id="keterangan" name="keterangan" rows="2" onkeyup="this.value = this.value.toUpperCase()" placeholder="Keterangan ..." required></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -224,51 +231,77 @@
     <!-- Modal Tambah Data -->
     <!-- Modal Details-->
     <?php foreach ($data as $hasil) : ?>
-        <div class="modal fade bd-example-modal-xl" id="detail-data<?= $hasil['id_pc']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
+        <div class="modal fade" id="detail-data<?= $hasil['id_pc']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <h5><i class="fas fa-id-card"></i> Details Personal Computer (PC)</h5>
-                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-window-close"></i></button>
+                        <h5 style="font-size: 15px;"><i class="fas fa-id-card"></i> Details Personal Computer (PC)</h5>
+                        <!-- <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-window-close"></i></button> -->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
-                        <table class="table table-bordered">
-                            <tbody>
+                        <table class="table table-bordered table-sm">
+                            <tbody style="font-size: 15px;">
                                 <tr>
                                     <td><strong>Nama PC</strong></td>
                                     <td><?php echo $hasil['nama_pc']; ?></td>
+                                </tr>
+                                <tr>
                                     <td><strong>Nama Monitor</strong></td>
                                     <td><?php echo $hasil['nama_monitor']; ?></td>
                                 </tr>
                                 <tr>
                                     <td><strong>SN Monitor</strong></td>
                                     <td><?php echo $hasil['sn_monitor']; ?></td>
+                                </tr>
+                                <tr>
                                     <td><strong>SN PC</strong></td>
                                     <td><?php echo $hasil['sn_pc']; ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Tgl Beli</strong></td>
-                                    <td><?php echo $hasil['tgl_beli']; ?></td>
+                                    <td><strong>Tanggal Beli</strong></td>
+                                    <td><?php echo tanggal_indonesia($hasil['tgl_beli']); ?></td>
+                                </tr>
+                                <tr>
                                     <td><strong>Penguasaan</strong></td>
                                     <td><?php echo $hasil['penguasaan']; ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>NUP</strong></td>
+                                    <td><strong>NUP (BMN)</strong></td>
                                     <td><?php echo $hasil['nup']; ?></td>
-                                    <td><strong>Id Ruangan</strong></td>
-                                    <td><?php echo $hasil['ruangan']; ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Id Pegawai</strong></td>
-                                    <td><?php echo $hasil['user']; ?></td>
+                                    <td><strong>Ruangan</strong></td>
+                                    <?php foreach ($ruangan as $rgn) : ?>
+                                        <?php if ($hasil['ruangan'] === $rgn['id_ruangan']) : ?>
+                                            <td><?= $rgn['nama_ruangan']; ?></td>
+                                        <?php elseif ($hasil['ruangan'] === '') : ?>
+
+                                        <?php endif; ?>
+                                    <?php endforeach ?>
+                                </tr>
+                                <tr>
+                                    <td><strong>Pengguna</strong></td>
+                                    <?php foreach ($pegawai as $pgw) : ?>
+                                        <?php if ($hasil['user'] === $pgw['id_pegawai']) : ?>
+                                            <td><?= $pgw['nama']; ?></td>
+                                        <?php elseif ($hasil['user'] === '') : ?>
+
+                                        <?php endif; ?>
+                                    <?php endforeach ?>
+                                </tr>
+                                <tr>
+                                    <td><strong>Keterangan</strong></td>
+                                    <td><?php echo $hasil['keterangan']; ?></td>
+                                </tr>
+                                <tr>
                                     <td><strong>Date Created</strong></td>
                                     <td><?php echo $hasil['date_created']; ?></td>
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="modal-footer">
-
                     </div>
                 </div>
             </div>
@@ -287,43 +320,43 @@
                         <div class="modal-body">
                             <div class="form-group row">
                                 <div class="row col-6">
-                                    <label for="nama_pc" class="col-sm-5 col-form-label">Nama PC</label>
+                                    <label for="nama_pc" class="col-sm-5 col-form-label col-form-label-sm">Nama PC</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" value="<?= $hasil['nama_pc']; ?>" name="nama_pc" onkeyup="this.value = this.value.toUpperCase()" required>
+                                        <textarea class="form-control form-control-sm" id="nama_pc" name="nama_pc" rows="3" onkeyup="this.value = this.value.toUpperCase()" placeholder="Nama PC ..." required><?= $hasil['nama_pc']; ?></textarea>
                                     </div>
                                 </div>
                                 <div class="row col-6">
-                                    <label for="nama_monitor" class="col-sm-5 col-form-label">Nama Monitor</label>
+                                    <label for="nama_monitor" class="col-sm-5 col-form-label col-form-label-sm">Nama Monitor</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" value="<?= $hasil['nama_monitor']; ?>" name="nama_monitor" onkeyup="this.value = this.value.toUpperCase()" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="row col-6">
-                                    <label for="sn_pc" class="col-sm-5 col-form-label">Serial PC</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" value="<?= $hasil['sn_pc']; ?>" name="sn_pc" required>
-                                    </div>
-                                </div>
-                                <div class="row col-6">
-                                    <label for="sn_monitor" class="col-sm-5 col-form-label">Serial Monitor</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" value="<?= $hasil['sn_monitor']; ?>" name="sn_monitor" required>
+                                        <input type="text" class="form-control form-control-sm" id="nama_monitor" placeholder="Nama Monitor ..." name="nama_monitor" onkeyup="this.value = this.value.toUpperCase()" value="<?= $hasil['nama_monitor']; ?>" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="row col-6">
-                                    <label for="tgl_beli" class="col-sm-5 col-form-label">Tanggal Beli</label>
+                                    <label for="sn_pc" class="col-sm-5 col-form-label col-form-label-sm">SN PC</label>
                                     <div class="col-sm-7">
-                                        <input type="date" class="form-control" name="tgl_beli" value="<?= $hasil['tgl_beli']; ?>">
+                                        <input type="text" class="form-control form-control-sm" id="sn_pc" placeholder="Serial PC" name="sn_pc" value="<?= $hasil['sn_pc']; ?>" onkeyup="this.value = this.value.toUpperCase()" required>
                                     </div>
                                 </div>
                                 <div class="row col-6">
-                                    <label for="penguasaan" class="col-sm-5 col-form-label">Penguasaan</label>
+                                    <label for="sn_monitor" class="col-sm-5 col-form-label col-form-label-sm">SN Monitor</label>
                                     <div class="col-sm-7">
-                                        <select name="penguasaan" class="form-control" value="<?= $hasil['penguasaan']; ?>" required>
+                                        <input type="text" class="form-control form-control-sm" id="sn_monitor" placeholder="Serial Monitor" name="sn_monitor" value="<?= $hasil['sn_monitor']; ?>" onkeyup="this.value = this.value.toUpperCase()" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="row col-6">
+                                    <label for="tgl_beli" class="col-sm-5 col-form-label col-form-label-sm">Tanggal Beli</label>
+                                    <div class="col-sm-7">
+                                        <input type="date" class="form-control form-control-sm" placeholder="Tanggal Beli" name="tgl_beli" value="<?= $hasil['tgl_beli']; ?>" required>
+                                    </div>
+                                </div>
+                                <div class="row col-6">
+                                    <label for="penguasaan" class="col-sm-5 col-form-label col-form-label-sm">Penguasaan</label>
+                                    <div class="col-sm-7">
+                                        <select name="penguasaan" class="form-control form-control-sm" required>
                                             <option <?php if ($hasil['penguasaan'] == "BMN") {
                                                         echo "selected='selected'";
                                                     }
@@ -342,30 +375,29 @@
                             </div>
                             <div class="form-group row">
                                 <div class="row col-6">
-                                    <label for="nup" class="col-sm-5 col-form-label">NUP</label>
+                                    <label for="nup" class="col-sm-5 col-form-label col-form-label-sm">NUP</label>
                                     <div class="col-sm-7">
-                                        <input type="text" class="form-control" value="<?= $hasil['nup']; ?>" name="nup" required>
+                                        <input type="text" class="form-control form-control-sm" id="nup" placeholder="NUP" name="nup" value="<?= $hasil['nup']; ?>" required>
                                     </div>
                                 </div>
                                 <div class="row col-6">
-                                    <label for="ruangan" class="col-sm-5 col-form-label">Ruangan</label>
+                                    <label for="ruangan" class="col-sm-5 col-form-label col-form-label-sm">Ruangan</label>
                                     <div class="col-sm-7">
-                                        <select name="ruangan" class="form-control" value="<?= $hasil['ruangan']; ?>" required>
-                                            <option <?php if ($hasil['ruangan'] == 0) { echo "selected='selected'"; }?> value='0'>
-                                                --PILIH--
-                                            </option>
-                                            <option <?php if ($hasil['ruangan'] == 1) { echo "selected='selected'"; }?> value='1'>
-                                                Kepaniteraan
-                                            </option>
+                                        <select name="ruangan" class="form-control form-control-sm" id="ruangan" required>
+                                            <option value="">--Pilih--</option>
+                                            <?php foreach ($ruangan as $m) : ?>
+                                                <?php $selected = ($m['id_ruangan'] == $hasil['ruangan']) ? "selected" : "" ?>
+                                                <option <?= $selected; ?> value="<?php echo $m['id_ruangan']; ?>"><?php echo $m['nama_ruangan']; ?></option>
+                                            <?php endforeach ?>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="row col-6">
-                                    <label for="user" class="col-sm-5 col-form-label">User</label>
+                                    <label for="user" class="col-sm-5 col-form-label col-form-label-sm">Pengguna</label>
                                     <div class="col-sm-7">
-                                        <select name="user" class="form-control" required>
+                                        <select class="form-control form-control-sm" name="user" id="user">
                                             <option value="">--Pilih--</option>
                                             <?php foreach ($pegawai as $m) : ?>
                                                 <?php $selected = ($m['id_pegawai'] == $hasil['user']) ? "selected" : "" ?>
@@ -374,7 +406,26 @@
                                         </select>
                                     </div>
                                 </div>
-                        </div>
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                                <script type="text/javascript">
+                                    $(document).ready(function() {
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '<?php echo base_url('inventory/get_user'); ?>',
+                                            cache: false,
+                                            success: function(msg) {
+                                                $("#user").html(msg);
+                                            }
+                                        });
+                                    });
+                                </script>
+                                <div class="row col-6">
+                                    <label for="keterangan" class="col-sm-5 col-form-label col-form-label-sm">Keterangan</label>
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control form-control-sm" id="keterangan" name="keterangan" rows="2" onkeyup="this.value = this.value.toUpperCase()" placeholder="Keterangan ..." required><?= $hasil['keterangan']; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button class="btn btn-success btn-lg" type="submit"><i class="fas fa-save"></i></button>
@@ -385,25 +436,6 @@
             </div>
         </div>
     <?php }  ?>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        var getComboA; 
-        $(document).ready(function(){
-            getComboA = function(selectObject) {
-                var kecamatan = selectObject.value;
-                $.ajax({
-                    type: 'POST',
-                    url: '<?php echo base_url('dispensasiKawin/get_desa'); ?>',
-                    data: {kecamatan: kecamatan},
-                    cache: false,
-                    success: function(msg){
-                        $("#desa_edit").html(msg);
-                    }
-                });
-            }
-        });
-    </script>
-    
     <!-- Modal Update Data-->
     <!-- Modal Hapus-->
     <?php foreach ($data as $hasil) : ?>
@@ -415,7 +447,7 @@
                     </div>
                     <form class="form-horizontal" action="<?php echo site_url('inventory/hapus_data_pc/' . $hasil['id_pc']); ?>" method="post" enctype="multipart/form-data" role="form">
                         <div class="modal-body">
-                            <p>Apakah Anda Ingin Menghapus Data <strong><?php echo $hasil['nama_pc']; ?> </strong> ID <strong><?php echo $hasil['id_pc']; ?></strong> ?</p>
+                            <p>Apakah Anda Ingin Menghapus Data <strong><?php echo $hasil['nama_pc']; ?> </strong>?</p>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button class="btn btn-danger btn-lg" type="submit"><i class="fas fa-trash"></i></button>
@@ -427,5 +459,3 @@
         </div>
     <?php endforeach;  ?>
     <!-- Modal Hapus -->
-
-    
