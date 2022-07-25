@@ -242,17 +242,18 @@
     <!-- Modal Tambah Data -->
     <!-- Modal Details-->
     <?php foreach ($data as $hasil) : ?>
-        <?php 
-            $params['data'] = $hasil['kode_pc'];
-            $params['level'] = 'H';
-            $params['size'] = 10;
-            // $params['savename'] = FCPATH.'tes.png';
-            $params['savename'] = FCPATH.$hasil['id_pc'].'.png';
-            $this->ciqrcode->generate($params);
+        <?php
+        $params['data'] = $hasil['kode_pc'];
+        $params['level'] = 'H';
+        $params['size'] = 10;
+        // $params['savename'] = FCPATH.'tes.png';
+        // $params['savename'] = FCPATH.$hasil['id_pc'].'.png';
+        $params['savename'] = './upload/qrcode/' . $hasil['id_pc'] . '.png';
+        $this->ciqrcode->generate($params);
 
-            // echo '<img src="'.base_url().'tes.png" />';
-            // echo '<img src="'.base_url().$hasil['id_pc'].'.png" />';
-            ?>
+        // echo '<img src="'.base_url().'tes.png" />';
+        // echo '<img src="'.base_url().$hasil['id_pc'].'.png" />';
+        ?>
         <div class="modal fade" id="detail-data<?= $hasil['id_pc']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -328,7 +329,7 @@
                                 </tr>
                                 <tr>
                                     <td><strong>QR</strong></td>
-                                    <td><?php echo '<img src="'.base_url().$hasil['id_pc'].'.png" />'; ?></td>
+                                    <td><?php echo '<img src="' . base_url() . './upload/qrcode/' . $hasil['id_pc'] . '.png" width="200" height="200" />'; ?></td>
                                 </tr>
                             </tbody>
                         </table>

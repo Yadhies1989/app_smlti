@@ -23,21 +23,7 @@ class Transaction extends CI_Controller
 
     public function proses_input_data_trx()
     {
-        $data = array(
-            'nama_transaksi' => $this->input->post('nama_transaksi', true),
-            'tgl_transaksi'  => $this->input->post('tgl_transaksi'),
-            'harga_barang'   => $this->input->post('harga_barang', true),
-            'quantity'       => $this->input->post('quantity', true),
-            'total_harga'    => $this->input->post('total_harga', true),
-            'tgl_beli'       => $this->input->post('tgl_beli', true),
-            'realisasi'      => $this->input->post('realisasi', true),
-            'keterangan'     => $this->input->post('keterangan', true),
-            'file_upload'    => $this->input->post('file_upload', true),
-            'keterangan'     => $this->input->post('keterangan', true),
-            'date_created'   => date('Y/m/d H:i:s')
-        );
-
-        $config['upload_path']        = './upload/surat_masuk';
+        $config['upload_path']        = './upload/transaksi';
         $config['allowed_types']      = 'gif|jpg|png|pdf';
         $config['max_size']           = '2048';
         $config['max_width']          = '3000';
@@ -45,14 +31,33 @@ class Transaction extends CI_Controller
 
         $this->load->library('upload', $config);
 
-        if ($this->upload->do_upload('file_upload')) {
-            $up_data         = $this->upload->data();
+        if (!$this->upload->do_upload('file_upload')) {
+            $error = array('error' => $this->upload->display_errors());
+            redirect('transaction/data_transaksi', $error);
         } else {
+            $up_data         = $this->upload->data();
+
+            $data = array(
+                'nama_transaksi' => $this->input->post('nama_transaksi', true),
+                'tgl_transaksi'  => $this->input->post('tgl_transaksi'),
+                'harga_barang'   => $this->input->post('harga_barang', true),
+                'quantity'       => $this->input->post('quantity', true),
+                'total_harga'    => $this->input->post('total_harga', true),
+                'realisasi'      => $this->input->post('realisasi', true),
+                'keterangan'     => $this->input->post('keterangan', true),
+                // 'file_upload'    => $this->input->post('file_upload', true),
+                'file_upload'    => $up_data['file_name'],
+                'keterangan'     => $this->input->post('keterangan', true),
+                'date_created'   => date('Y/m/d H:i:s')
+            );
+
+            // var_dump($data);
+            // die;
+
+            $this->m_data_pc->insert_data('tbl_transaksi', $data);
+
+            $this->session->set_flashdata('pesan', 'Di Tambahkan');
+            redirect('transaction/data_transaksi');
         }
-
-        $this->m_data_pc->insert_data('tbl_transaksi', $data);
-
-        $this->session->set_flashdata('pesan', 'Di Tambahkan');
-        redirect('transaction/data_transaksi');
     }
 }
