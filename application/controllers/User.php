@@ -10,13 +10,23 @@ class User extends CI_Controller
 		is_logged_in();
 	}
 
-
 	public function index()
+	{
+		$data['user'] = $this->db->get_where('tbl_user', ['nip' => $this->session->userdata('nip')])->row_array();
+		$data['title'] = 'Dasboard User';
+		$data['tahun'] = $this->session->userdata('admin_ta');
+
+		$this->load->view('Template/navbar', $data);
+		$this->load->view('Template/sidebar', $data);
+		$this->load->view('Admin/v_dashuser', $data);
+		$this->load->view('Template/footer');
+	}
+
+	public function my_profile()
 	{
 		$data['user'] = $this->db->get_where('tbl_user', ['nip' => $this->session->userdata('nip')])->row_array();
 		$data['title'] = 'My Profile';
 
-		// echo "Selamat Datang User " . $data['user']['name'];
 		$this->load->view('Template/navbar', $data);
 		$this->load->view('Template/sidebar', $data);
 		$this->load->view('Admin/v_dashboard', $data);

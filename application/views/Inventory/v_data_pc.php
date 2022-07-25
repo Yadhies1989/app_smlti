@@ -34,8 +34,9 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Nama PC</th>
-                                                <th>Nama Monitor</th>
+                                                <th>Kode PC</th>
+                                                <th>PC (Desktop)</th>
+                                                <th>Monitor</th>
                                                 <th>Pengguna</th>
                                                 <th>Ruangan</th>
                                                 <th>Aksi</th>
@@ -56,6 +57,7 @@
                                             ?>
                                                 <tr>
                                                     <td><?= $no++; ?></td>
+                                                    <td><?= $hasil['kode_pc']; ?></td>
                                                     <td><?= $hasil['nama_pc']; ?></td>
                                                     <td><?= $hasil['nama_monitor']; ?></td>
                                                     <td><?= $peg_nama; ?></td>
@@ -81,8 +83,9 @@
                                         <tfoot>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Nama PC</th>
-                                                <th>Nama Monitor</th>
+                                                <th>Kode PC</th>
+                                                <th>PC (Desktop)</th>
+                                                <th>Monitor</th>
                                                 <th>Pengguna</th>
                                                 <th>Ruangan</th>
                                                 <th>Aksi</th>
@@ -117,6 +120,14 @@
                     <div class="modal-body">
                         <div class="form-group row">
                             <div class="row col-6">
+                                <label for="nama_pc" class="col-sm-5 col-form-label col-form-label-sm">Kode PC</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" value="<?= $kode_pc; ?>" id="kode_pc" name="kode_pc" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="row col-6">
                                 <label for="nama_pc" class="col-sm-5 col-form-label col-form-label-sm">Nama PC</label>
                                 <div class="col-sm-7">
                                     <textarea class="form-control form-control-sm" id="nama_pc" name="nama_pc" rows="3" onkeyup="this.value = this.value.toUpperCase()" placeholder="Nama PC ..." required></textarea>
@@ -147,7 +158,7 @@
                             <div class="row col-6">
                                 <label for="tgl_beli" class="col-sm-5 col-form-label col-form-label-sm">Tanggal Beli</label>
                                 <div class="col-sm-7">
-                                    <input type="date" class="form-control form-control-sm" placeholder="Tanggal Beli" name="tgl_beli">
+                                    <input type="date" class="form-control form-control-sm" placeholder="Tanggal Beli" name="tgl_beli" required>
                                 </div>
                             </div>
                             <div class="row col-6">
@@ -245,6 +256,10 @@
                         <table class="table table-bordered table-sm">
                             <tbody style="font-size: 15px;">
                                 <tr>
+                                    <td><strong>Kode PC</strong></td>
+                                    <td><?php echo $hasil['kode_pc']; ?></td>
+                                </tr>
+                                <tr>
                                     <td><strong>Nama PC</strong></td>
                                     <td><?php echo $hasil['nama_pc']; ?></td>
                                 </tr>
@@ -318,6 +333,14 @@
                     </div>
                     <form class="form-horizontal" action="<?php echo site_url('inventory/ubah_data_pc/' . $hasil['id_pc']); ?>" method="post" enctype="multipart/form-data" role="form">
                         <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="row col-6">
+                                    <label for="nama_monitor" class="col-sm-5 col-form-label col-form-label-sm">Kode PC</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control form-control-sm" id="kode_pc" name="kode_pc" value="<?= $hasil['kode_pc']; ?>" readonly>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <div class="row col-6">
                                     <label for="nama_pc" class="col-sm-5 col-form-label col-form-label-sm">Nama PC</label>

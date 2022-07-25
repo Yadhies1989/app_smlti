@@ -17,6 +17,7 @@ class Inventory extends CI_Controller
         $data['data'] = $this->m_data_pc->get_data_pc();
         $data['pegawai'] = $this->m_data_pc->get_data_pegawai();
         $data['ruangan'] = $this->m_data_pc->get_data_ruangan();
+        $data['kode_pc'] = $this->m_data_pc->get_code_pc();
 
         $this->load->view('Template/navbar', $data);
         $this->load->view('Template/sidebar', $data);
@@ -47,6 +48,7 @@ class Inventory extends CI_Controller
     public function proses_input_data_pc()
     {
         $data = array(
+            'kode_pc'        => $this->input->post('kode_pc', true),
             'nama_pc'        => $this->input->post('nama_pc', true),
             'nama_monitor'   => $this->input->post('nama_monitor', true),
             'sn_pc'          => $this->input->post('sn_pc', true),
@@ -69,6 +71,7 @@ class Inventory extends CI_Controller
     public function ubah_data_pc($id)
     {
         $data = array(
+            'kode_pc'        => $this->input->post('kode_pc', true),
             'nama_pc'        => $this->input->post('nama_pc', true),
             'nama_monitor'   => $this->input->post('nama_monitor', true),
             'sn_pc'          => $this->input->post('sn_pc', true),

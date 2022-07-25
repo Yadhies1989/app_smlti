@@ -42,8 +42,8 @@ class Welcome extends CI_Controller
 				if (password_verify($password, $user['password'])) {
 
 					$data = [
-						'nip'     => $user['nip'],
-						'role_id' => $user['role_id'],
+						'nip'        => $user['nip'],
+						'role_id'    => $user['role_id'],
 						'admin_ta'   => $tahun,
 					];
 					$this->session->set_userdata($data);
