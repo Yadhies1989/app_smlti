@@ -34,6 +34,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Perawatan Laptop</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="laporan-perbulan-tab" data-toggle="pill" href="#custom-laporan-perbulan" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Laporan PerBulan</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -167,6 +170,55 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="tab-pane fade" id="custom-laporan-perbulan" role="tabpanel" aria-labelledby="laporan-perbulan-tab">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="karyawan">Laporan Per PerBulan</label>
+                                                    <select class="form-control" id="select_karyawan" name="selectKaryawan" onchange="fnKaryawan(this.value)">
+                                                        <option value="0" selected>--Tampilkan Semua --</option>
+                                                        <option value="01">JANUARI</option>
+                                                        <option value="02">PEBRUARI</option>
+                                                        <option value="03">MARET</option>
+                                                        <option value="04">APRIL</option>
+                                                        <option value="05">MEI</option>
+                                                        <option value="06">JUNI</option>
+                                                        <option value="07">JULI</option>
+                                                        <option value="08">AGUSTUS</option>
+                                                        <option value="09">SEPTEMBER</option>
+                                                        <option value="10">OKTOBER</option>
+                                                        <option value="11">NOVEMBER</option>
+                                                        <option value="12">DESEMBER</option>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="karyawan">Total Harga</label>
+                                                    <input type="text" class="form-control" id="total_jumlah">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Nama Barang</th>
+                                                <th scope="col">Tgl Transaksi</th>
+                                                <th scope="col">Total Harga</th>
+                                                <th scope="col">Keterangan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="show_data">
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <!-- /.card -->
@@ -180,4 +232,72 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
+    <script>
+        window.onload = fnKaryawan(0);
+
+        function convertDateDBtoIndo(string) {
+            bulanIndo = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+            tanggal = string.split("-")[2];
+            bulan = string.split("-")[1];
+            tahun = string.split("-")[0];
+
+            return tanggal + " " + bulanIndo[Math.abs(bulan)] + " " + tahun;
+        }
+
+        function fnKaryawan(x) {
+            // console.log(x);
+
+            $.ajax({
+                type: "GET",
+                url: "<?= base_url('transaction/load_karyawan'); ?>",
+                async: true,
+                data: {
+                    karyawan: x
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    var html = '';
+                    var i;
+                    var no = 1;
+                    var stringKosong = 'Tidak Ada Data';
+                    let sumArray = [];
+                    let jumlah = 0;
+
+                    var yadhies = data.map(function(elem) {
+                        return parseInt(elem.total_harga);
+                    });
+
+
+                    let total = yadhies.reduce((val, nilaiSekarang) => {
+                        return val + nilaiSekarang
+                    }, 0);
+
+
+                    console.log(total);
+
+                    if (data.length === 0) {
+                        html += '<tr>' +
+                            '<td colspan="5" class="text-center">' + stringKosong + '</td>' +
+                            '</tr>';
+                    } else {
+                        for (i = 0; i < data.length; i++) {
+
+                            html += '<tr>' +
+                                '<td>' + no++ + '</td>' +
+                                '<td>' + data[i].nama_transaksi + '</td>' +
+                                '<td>' + convertDateDBtoIndo(data[i].tgl_transaksi) + '</td>' +
+                                '<td>' + data[i].total_harga + '</td>' +
+                                '<td>' + data[i].keterangan + '</td>' +
+                                '</tr>';
+                        }
+                    }
+                    $('#show_data').html(html);
+                    $("#total_jumlah").val(total);
+                }
+            });
+        }
+    </script>
+
     </body>

@@ -145,4 +145,17 @@ class Transaction extends CI_Controller
         $this->load->view('Transaction/v_laporan-transaction', $data);
         $this->load->view('Template/footer');
     }
+
+    public function load_karyawan()
+    {
+        $karyawan = $this->input->get('karyawan');
+        // $karyawan = 3;
+
+        if ($karyawan == 0) {
+            $data = $this->db->get('tbl_transaksi')->result();
+        } else {
+            $data = $this->db->get_where('tbl_transaksi', ['MONTH(tgl_transaksi)' => $karyawan])->result();
+        }
+        echo json_encode($data);
+    }
 }
