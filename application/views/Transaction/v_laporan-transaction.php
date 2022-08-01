@@ -204,7 +204,7 @@
                                         </div>
                                     </div>
 
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" id="example2">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
@@ -232,72 +232,6 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
-    <script>
-        window.onload = fnKaryawan(0);
-
-        function convertDateDBtoIndo(string) {
-            bulanIndo = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-
-            tanggal = string.split("-")[2];
-            bulan = string.split("-")[1];
-            tahun = string.split("-")[0];
-
-            return tanggal + " " + bulanIndo[Math.abs(bulan)] + " " + tahun;
-        }
-
-        function fnKaryawan(x) {
-            // console.log(x);
-
-            $.ajax({
-                type: "GET",
-                url: "<?= base_url('transaction/load_karyawan'); ?>",
-                async: true,
-                data: {
-                    karyawan: x
-                },
-                dataType: "JSON",
-                success: function(data) {
-                    var html = '';
-                    var i;
-                    var no = 1;
-                    var stringKosong = 'Tidak Ada Data';
-                    let sumArray = [];
-                    let jumlah = 0;
-
-                    var yadhies = data.map(function(elem) {
-                        return parseInt(elem.total_harga);
-                    });
-
-
-                    let total = yadhies.reduce((val, nilaiSekarang) => {
-                        return val + nilaiSekarang
-                    }, 0);
-
-
-                    console.log(total);
-
-                    if (data.length === 0) {
-                        html += '<tr>' +
-                            '<td colspan="5" class="text-center">' + stringKosong + '</td>' +
-                            '</tr>';
-                    } else {
-                        for (i = 0; i < data.length; i++) {
-
-                            html += '<tr>' +
-                                '<td>' + no++ + '</td>' +
-                                '<td>' + data[i].nama_transaksi + '</td>' +
-                                '<td>' + convertDateDBtoIndo(data[i].tgl_transaksi) + '</td>' +
-                                '<td>' + data[i].total_harga + '</td>' +
-                                '<td>' + data[i].keterangan + '</td>' +
-                                '</tr>';
-                        }
-                    }
-                    $('#show_data').html(html);
-                    $("#total_jumlah").val(total);
-                }
-            });
-        }
-    </script>
+    
 
     </body>
